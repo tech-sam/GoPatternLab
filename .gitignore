@@ -23,4 +23,5 @@ go.work.sum
 
 # env file
 .env
-.idea
+# Exclude all files and directories under .idea
+.idea/

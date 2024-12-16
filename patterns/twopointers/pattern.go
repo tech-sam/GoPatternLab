@@ -25,6 +25,7 @@ func (t *TwoPointers) Name() string {
 func (t *TwoPointers) registerProblems() {
 	t.problems["validpalindrome"] = problems.NewValidPalindrome()
 	t.problems["sortcolors"] = problems.NewSortColors()
+	t.problems["min_moves_for_palindrome"] = problems.NewMinMovesForPalindrome()
 }
 
 func (t *TwoPointers) RunProblem(name string) error {
