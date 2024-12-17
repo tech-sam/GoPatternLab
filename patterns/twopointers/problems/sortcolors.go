@@ -2,7 +2,7 @@ package problems
 
 import (
 	"fmt"
-	"github.com/tech-sam/grokking-patterns-go-blind-75/pkg/problem"
+	"github.com/tech-sam/GoPatternLab/pkg/problem"
 )
 
 func NewSortColors() problem.Problem {

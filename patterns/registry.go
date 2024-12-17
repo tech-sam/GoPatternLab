@@ -2,7 +2,7 @@ package patterns
 
 import (
 	"fmt"
-	"github.com/tech-sam/grokking-patterns-go-blind-75/patterns/twopointers"
+	"github.com/tech-sam/GoPatternLab/patterns/twopointers"
 )
 
 type Pattern interface {

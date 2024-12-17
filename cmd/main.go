@@ -3,8 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/tech-sam/grokking-patterns-go-blind-75/patterns"
+	"github.com/tech-sam/GoPatternLab/patterns"
+	"github.com/tech-sam/GoPatternLab/pkg/db"
 	"log"
+	"path/filepath"
 )
 
 func main() {
@@ -12,6 +14,14 @@ func main() {
 	problem := flag.String("problem", "", "Problem name (e.g., validpalindrome)")
 	list := flag.Bool("list", false, "List all available patterns")
 	flag.Parse()
+
+	// Initialize database
+	dbPath := filepath.Join(".", "data", "patterns.db")
+	database, err := db.New(dbPath)
+	if err != nil {
+		log.Fatalf("Failed to initialize database: %v", err)
+	}
+	defer database.Close()
 
 	registry := patterns.NewRegistry()
 

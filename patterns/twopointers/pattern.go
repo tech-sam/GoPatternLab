@@ -2,8 +2,8 @@ package twopointers
 
 import (
 	"fmt"
-	"github.com/tech-sam/grokking-patterns-go-blind-75/patterns/twopointers/problems"
-	"github.com/tech-sam/grokking-patterns-go-blind-75/pkg/problem"
+	"github.com/tech-sam/GoPatternLab/patterns/twopointers/problems"
+	"github.com/tech-sam/GoPatternLab/pkg/problem"
 )
 
 type TwoPointers struct {
