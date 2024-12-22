@@ -23,6 +23,7 @@ func NewHandler() (*Handler, error) {
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/", h.handleIndex)
+	mux.HandleFunc("/patterns/new", h.handleNewPattern)
 }
 
 func (h *Handler) handleIndex(w http.ResponseWriter, r *http.Request) {
@@ -30,7 +31,13 @@ func (h *Handler) handleIndex(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	err := h.templates.ExecuteTemplate(w, "index.html", nil)
+	err := h.templates.ExecuteTemplate(w, "base.html", nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+func (h *Handler) handleNewPattern(w http.ResponseWriter, r *http.Request) {
+	err := h.templates.ExecuteTemplate(w, "pattern_form", nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
