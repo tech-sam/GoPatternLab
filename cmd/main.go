@@ -1,49 +1,25 @@
+// cmd/main.go
 package main
 
 import (
-	"flag"
-	"fmt"
-	"github.com/tech-sam/GoPatternLab/patterns"
-	"github.com/tech-sam/GoPatternLab/pkg/db"
+	"github.com/tech-sam/GoPatternLab/internal/config"
+	"github.com/tech-sam/GoPatternLab/internal/server"
 	"log"
-	"path/filepath"
 )
 
 func main() {
-	pattern := flag.String("pattern", "", "Pattern name (e.g., twopointers)")
-	problem := flag.String("problem", "", "Problem name (e.g., validpalindrome)")
-	list := flag.Bool("list", false, "List all available patterns")
-	flag.Parse()
+	// Parse configuration
+	cfg := config.Parse()
 
-	// Initialize database
-	dbPath := filepath.Join(".", "data", "patterns.db")
-	database, err := db.New(dbPath)
-	if err != nil {
-		log.Fatalf("Failed to initialize database: %v", err)
-	}
-	defer database.Close()
-
-	registry := patterns.NewRegistry()
-
-	if *list {
-		fmt.Println("Available Patterns and Problems:")
-		fmt.Println("================================")
-		for pattern, problems := range registry.ListPatterns() {
-			fmt.Printf("\n🔹 %s:\n", pattern)
-			for _, problem := range problems {
-				fmt.Printf("  • %s\n", problem)
-			}
+	// Only start server if serve flag is true
+	if cfg.Server.Serve {
+		if err := server.Start(cfg); err != nil {
+			log.Fatal(err)
 		}
 		return
 	}
 
-	if *pattern == "" || *problem == "" {
-		fmt.Println("Usage: go run cmd/main.go -pattern <pattern> -problem <problem>")
-		fmt.Println("Or: go run cmd/main.go -list")
-		return
-	}
-
-	if err := registry.RunProblem(*pattern, *problem); err != nil {
-		log.Fatal(err)
-	}
+	// If serve flag is not set, show usage
+	log.Println("Use -serve flag to start the server")
+	log.Println("Example: go run cmd/main.go -serve")
 }
