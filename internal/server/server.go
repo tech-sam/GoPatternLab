@@ -43,7 +43,7 @@ func initDB(cfg config.DBConfig) (*db.DB, error) {
 }
 
 func initServer(port string, database *db.DB) (*http.Server, error) {
-	handler, err := web.NewHandler()
+	handler, err := web.NewHandler(database)
 	if err != nil {
 		return nil, err
 	}

@@ -4,17 +4,21 @@
     <div class="bg-white p-8 rounded-lg shadow-lg w-96">
         <h2 class="text-2xl font-bold mb-4">Add New Pattern</h2>
 
-        <form>
+        <form hx-post="/patterns/create" hx-target="#dialog">
             <div class="mb-4">
-                <label class="block text-gray-700 mb-2" for="name">Pattern Name</label>
+                <label class="block text-gray-700 mb-2" for="name">Pattern Name *</label>
                 <input type="text" id="name" name="name"
-                       class="w-full p-2 border rounded">
+                       class="w-full p-2 border rounded"
+                       required
+                       minlength="1"
+                       placeholder="e.g., Two Pointers">
             </div>
 
             <div class="mb-4">
                 <label class="block text-gray-700 mb-2" for="description">Description</label>
                 <textarea id="description" name="description" rows="3"
-                          class="w-full p-2 border rounded"></textarea>
+                          class="w-full p-2 border rounded"
+                          placeholder="Describe the pattern..."></textarea>
             </div>
 
             <div class="flex justify-end gap-2">
@@ -29,6 +33,20 @@
                 </button>
             </div>
         </form>
+    </div>
+</div>
+{{end}}
+
+{{define "success_message"}}
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96 text-center">
+        <div class="text-green-500 mb-4 text-5xl">✓</div>
+        <h2 class="text-2xl font-bold mb-2">Pattern Added!</h2>
+        <p class="text-gray-600 mb-4">Your pattern has been successfully created.</p>
+        <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                onclick="window.location.reload()">
+            Continue
+        </button>
     </div>
 </div>
 {{end}}

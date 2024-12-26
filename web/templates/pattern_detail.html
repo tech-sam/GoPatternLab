@@ -1,0 +1,70 @@
+<!-- web/templates/pattern_detail.html -->
+{{define "content"}}
+<div class="min-h-screen bg-gray-100">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <!-- Pattern Selection -->
+                    <div class="flex-shrink-0 flex items-center">
+                        <select class="form-select rounded-md border-gray-300"
+                                hx-get="/patterns/{}"
+                                hx-trigger="change">
+                            <option value="{{.ID}}" selected>{{.Name}}</option>
+                            <!-- Other patterns will be added here -->
+                        </select>
+                    </div>
+
+                    <!-- List All Patterns Button -->
+                    <div class="ml-6 flex items-center">
+                        <button class="px-4 py-2 border rounded-md hover:bg-gray-50"
+                                hx-get="/">
+                            List All Patterns
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <!-- Pattern Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">{{.Name}}</h1>
+            <p class="mt-2 text-gray-600">{{.Description}}</p>
+        </div>
+
+        {{if not .Problems}}
+        <!-- No Problems State -->
+        <div class="text-center py-12 bg-white rounded-lg shadow">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5v2m6-2v2"/>
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No problems yet</h3>
+            <p class="mt-1 text-sm text-gray-500">Get started by creating a new problem.</p>
+            <div class="mt-6">
+                <button class="inline-flex items-center px-4 py-2 border border-transparent
+                             rounded-md shadow-sm text-sm font-medium text-white
+                             bg-blue-600 hover:bg-blue-700"
+                        hx-get="/problems/new"
+                        hx-target="#dialog">
+                    <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Add Problem
+                </button>
+            </div>
+        </div>
+        {{else}}
+        <!-- Problem List/Detail will be added later -->
+        {{end}}
+    </main>
+
+    <!-- Dialog Container for Forms -->
+    <div id="dialog"></div>
+</div>
+{{end}}
