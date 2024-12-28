@@ -30,13 +30,24 @@ func NewPatternModel(db *db.DB) *PatternModel {
 	return &PatternModel{DB: db}
 }
 
-func (m *PatternModel) Create(name, description string) error {
+func (m *PatternModel) Create(name, description string) (*Pattern, error) {
+	pattern := &Pattern{
+		Name:        name,
+		Description: description,
+	}
+
 	query := `
         INSERT INTO patterns (name, description)
         VALUES (?, ?)
+        RETURNING id, created_at
     `
-	_, err := m.DB.Exec(query, name, description)
-	return err
+
+	err := m.DB.QueryRow(query, name, description).Scan(&pattern.ID, &pattern.CreatedAt)
+	if err != nil {
+		return nil, err
+	}
+
+	return pattern, nil
 }
 
 func (m *PatternModel) GetPatterns() ([]Pattern, error) {

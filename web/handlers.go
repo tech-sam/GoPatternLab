@@ -83,12 +83,14 @@ func (h *Handler) handleCreatePattern(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.patterns.Create(name, description); err != nil {
+	// Create the pattern and get back the created pattern
+	pattern, err := h.patterns.Create(name, description)
+	if err != nil {
 		http.Error(w, "Failed to create pattern", http.StatusInternalServerError)
 		return
 	}
 
-	err := h.templates.ExecuteTemplate(w, "success_message", nil)
+	err = h.templates.ExecuteTemplate(w, "success_message", pattern)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
