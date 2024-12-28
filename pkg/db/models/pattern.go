@@ -38,3 +38,27 @@ func (m *PatternModel) Create(name, description string) error {
 	_, err := m.DB.Exec(query, name, description)
 	return err
 }
+
+func (m *PatternModel) GetPatterns() ([]Pattern, error) {
+	query := `
+        SELECT id, name, description, created_at
+        FROM patterns
+        ORDER BY created_at DESC
+    `
+	rows, err := m.DB.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var patterns []Pattern
+	for rows.Next() {
+		var p Pattern
+		err := rows.Scan(&p.ID, &p.Name, &p.Description, &p.CreatedAt)
+		if err != nil {
+			return nil, err
+		}
+		patterns = append(patterns, p)
+	}
+	return patterns, nil
+}

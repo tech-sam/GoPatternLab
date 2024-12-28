@@ -4,18 +4,35 @@
     <h1 class="text-4xl font-bold mb-4">Welcome to Go Pattern Lab! 🚀</h1>
 
     <div class="mb-8">
-        <p class="text-xl text-gray-600">Looks like you haven't added any patterns yet.</p>
-        <p class="text-lg text-gray-500">Time to start your coding journey!</p>
+        <p class="text-xl text-gray-600">Start your coding practice journey</p>
+        <p class="text-lg text-gray-500">Create patterns and solve problems</p>
+
+        <!-- Always show Create Pattern button -->
+        <button
+                class="mt-6 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold"
+                hx-get="/patterns/new"
+                hx-target="#dialog">
+            Create New Pattern
+        </button>
     </div>
 
-    <button
-            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold"
-            hx-get="/patterns/new"
-            hx-target="#dialog">
-        Add Your First Pattern
-    </button>
+    {{if .Patterns}}
+    <!-- Show patterns list if exists -->
+    <div class="space-y-4 mt-8">
+        {{range .Patterns}}
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+            <h2 class="text-2xl font-semibold">{{.Name}}</h2>
+            <p class="text-gray-600 mt-2">{{.Description}}</p>
+            <a href="/patterns/{{.ID}}"
+               class="mt-4 inline-block text-blue-500 hover:text-blue-600">
+                View Pattern →
+            </a>
+        </div>
+        {{end}}
+    </div>
+    {{end}}
 
-    <!-- Dialog container for the new pattern form -->
+    <!-- Dialog container for forms -->
     <div id="dialog"></div>
 </div>
 {{end}}

@@ -2,11 +2,12 @@
 package web
 
 import (
-	"github.com/tech-sam/GoPatternLab/pkg/db"
-	"github.com/tech-sam/GoPatternLab/pkg/db/models"
 	"html/template"
 	"net/http"
 	"strings"
+
+	"github.com/tech-sam/GoPatternLab/pkg/db"
+	"github.com/tech-sam/GoPatternLab/pkg/db/models"
 )
 
 type Handler struct {
@@ -37,9 +38,22 @@ func (h *Handler) handleIndex(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	err := h.templates.ExecuteTemplate(w, "base.html", nil)
+
+	// Get patterns from database
+	patterns, err := h.patterns.GetPatterns()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Execute base.html which will automatically include index.html's content
+	// because index.html defines the "content" template that base.html references
+	err = h.templates.ExecuteTemplate(w, "base.html", map[string]interface{}{
+		"Patterns": patterns,
+	})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 }
 
